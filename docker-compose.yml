@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+
+  rdp:
+    image: ghcr.io/samukhin/centos7_xrdp_pulseaudio_docker:main
+    restart: always
+    ports:
+      - 4000:3389
+    privileged: true
