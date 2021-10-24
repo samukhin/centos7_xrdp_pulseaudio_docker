@@ -2,10 +2,11 @@
 FROM centos:7
 
 # Update system, install init system and add repo
-RUN yum -y update && yum -y install epel-release systemd && yum -y update
+RUN yum -y update && yum -y install epel-release systemd && yum -y update && yum -y autoremove
 
 # Install the GNOME Desktop package group by using the below command
-RUN yum groupinstall "GNOME DESKTOP" -y
+RUN yum groupinstall "Server with GUI" -y && \
+yum groupinstall "GNOME DESKTOP" -y
 
 #Install XRDP and start XRDP service
 RUN yum install xrdp -y && systemctl enable xrdp && systemctl disable firewalld
@@ -36,7 +37,12 @@ make && \
 make install
 
 #Prepare user
-RUN passwd -d root && useradd -m user && passd -d user
+RUN passwd -d root && useradd -m user && passwd -d user
+
+#Customize
+RUN echo "gnome-session" > ~/.Xclients && \
+chmod +x ~/.Xclients && \
+yum install -y gnome-shell-extension-dash-to-dock
 
 # Init
 CMD /sbin/init
