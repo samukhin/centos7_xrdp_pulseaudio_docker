@@ -35,5 +35,8 @@ cd pulseaudio-module-xrdp && \
 make && \
 make install
 
+#Prepare user
+RUN passwd -d root && useradd -m user && passd -d user
+
 # Init
 CMD /sbin/init
